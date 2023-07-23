@@ -1,18 +1,19 @@
-[Huawei modem](/blob/master/pics/huawei_modem.png)
+<img src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/huawei_modem.png" data-canonical-src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/huawei_modem.png" width="600"/>
 
 # Huawei Modem B525s-23a root
 
-To get root in the device, we have to reflash it to the modded firmware which is included in the **soft/** folder. Before you begin make sure you have a computer running Linux and USB-A-to-A cable as shown in the picture
+To get root in the device, we have to reflash it to the modded firmware which is included in the **soft/** folder. Before you begin make sure you have a computer running Linux and **USB-A-to-A** cable as shown in the picture:
 
-[USB-A-to-A-Cable](/blob/master/pics/usb-a.jpg)
+<img src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/usb-a.jpg" data-canonical-src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/usb-a.jpg" width="600"/>
 
 You have to mask VCC (Power +) on one side of the USB cable using something like this
 
-[USB Tape](/blob/master/pics/usb-tape.jpeg)
+<img src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/usb-tape.jpeg" data-canonical-src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/usb-tape.jpeg" width="600"/>
+
 
 Turn on your Linux machine and dissasemble the modem. Disconnect the power from the modem, connect device to your computer via this USB cable, when you have power it on while handling some metal object to short the pins shown in this picture
 
-[Short pins](/blob/master/pics/huawei_b525_23a_hack_1.jpeg)
+<img src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/huawei_b525_23a_hack_1.jpeg" data-canonical-src="https://raw.githubusercontent.com/e1z0/Huawei-B525-root/master/pics/huawei_b525_23a_hack_1.jpeg" width="600"/>
 
 After the device turns on after 5 or more seconds you can release the pins and look at your Linux machine, the two new usb devices should by recognized by the Linux kernel
 
@@ -75,3 +76,8 @@ iptables -t mangle -I PREROUTING -i eth_x -j TTL --ttl-set 65
 These workaround will avoid speed throttle
 
 To make it persistent add commands to the `/system/etc/autorun.sh`
+
+# Go further
+
+* [Install and configure OPKG package manager and other tools](https://4pda.to/forum/index.php?showtopic=800482&view=findpost&p=75680288)
+* [Other forum posts (in russian)](https://4pda.to/forum/index.php?showtopic=800482&st=1860#entry75680288)
