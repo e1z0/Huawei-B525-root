@@ -73,7 +73,7 @@ reboot
 iptables -t mangle -I POSTROUTING -o eth_x -j TTL --ttl-set 65
 iptables -t mangle -I PREROUTING -i eth_x -j TTL --ttl-set 65 
 ```
-These workaround will avoid speed throttle
+This workaround will avoid speed throttle
 
 To make it persistent add commands to the `/system/etc/autorun.sh`
 
