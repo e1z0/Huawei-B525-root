@@ -51,7 +51,7 @@ Now prepare and flash the modem:
 # ./balong_flash -p /dev/ttyUSB1 ../../B525s-23a_Update_81.191.27.00.00_M_AT_04.01-WebUI_81.100.33.03.03.bin
 ```
 
-bin file is from extracted B525s-23a_Update_81.191.27.00.00_M_AT_04.01-WebUI_81.100.33.03.03.rar archive
+bin file is from extracted B525s-23a_Update_81.191.27.00.00_M_AT_04.01-WebUI_81.100.33.03.03.7z archive
 
 The system will now reboot, after reboot you can connect to it via telnet
 ```
