@@ -143,7 +143,36 @@ ln -s libpthread-2.27.so libpthread.so.0
 /opt/bin/opkg update
 /opt/bin/opkg install busybox
 /opt/bin/opkg install entware-opt
-echo -e "source /opt/etc/profile" >> /opt/user-autorun.sh
+echo -e ". /opt/etc/profile" >> /opt/user-autorun.sh
+reboot
+```
+
+# Wireguard
+
+Please note that this setup requires that you already have managed to install OPKG package manager, see previous section..
+
+Transfer files to the router:
+```
+adb connect 192.168.8.1
+adb push soft/wireguard.ko /tmp/wireguard.ko
+adb push soft/wireguard.sh /tmp/wireguard.sh
+```
+
+Connect to the router and configure the wireguard tunnel:
+
+```
+telnet 192.168.8.1
+mv /tmp/wireguard.ko /opt/etc/wireguard/
+mv /tmp/wireguard.sh /opt/
+chmod 755 /opt/wireguard.sh 
+insmod /opt/etc/wireguard/wireguard.ko
+/opt/bin/opkg install wireguard-tools
+mkdir /opt/etc/wireguard
+cd /opt/etc/wireguard
+wg genkey | tee privatekey | wg pubkey > publickey
+
+edit /opt/wireguard.sh and set all required parameters
+echo "/opt/wireguard.sh" >> /opt/user-autorun.sh
 reboot
 ```
 
