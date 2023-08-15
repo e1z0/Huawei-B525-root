@@ -77,6 +77,31 @@ This workaround will avoid speed throttle
 
 To make it persistent add commands to the `/system/etc/autorun.sh`
 
+# OPKG Installation
+
+**MacOS**
+```
+brew install android-platform-tools
+```
+
+```
+wget https://busybox.net/downloads/binaries/1.28.1-defconfig-multiarch/busybox-armv7l
+adb connect 192.168.8.1
+adb push busybox-armv7l /tmp/busybox-armv7l
+telnet 192.168.8.1
+mount -o remount,rw /system
+mv /tmp/busybox-armv7l /system/bin/busybox-armv7l
+chmod +x /system/bin/busybox-armv7l
+mkdir /online/opt
+echo -e "\n\nbusybox ln -sf /system/bin/busybox-armv7l /bin/wget" >> /system/etc/autorun.sh
+echo -e "ln -s /online/opt /opt" >> /system/etc/autorun.sh
+echo -e "#User's autorun\n/online/opt/user-autorun.sh" >> /system/etc/autorun.sh
+echo -e "#!/system/bin/busybox-armv7l sh\n" > /online/opt/user-autorun.sh
+chmod +x /online/opt/user-autorun.sh
+mount -o remount,ro /system
+reboot
+```
+
 # Go further
 
 * [Install and configure OPKG package manager and other tools](https://4pda.to/forum/index.php?showtopic=800482&view=findpost&p=75680288)
