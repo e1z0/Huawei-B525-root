@@ -88,19 +88,60 @@ brew install android-platform-tools
 wget https://busybox.net/downloads/binaries/1.28.1-defconfig-multiarch/busybox-armv7l
 adb connect 192.168.8.1
 adb push busybox-armv7l /tmp/busybox-armv7l
+```
+If you are unable to connect to the device using adb, that means that the adb daemon is not running, you need to manually start it:
+```
+telnet 192.168.8.1
+adbd
+```
+Repeat the push procedure and proceed with system prepare for opkg bootstrap..
+
+```
 telnet 192.168.8.1
 mount -o remount,rw /system
-mv /tmp/busybox-armv7l /system/bin/busybox-armv7l
-chmod +x /system/bin/busybox-armv7l
+cp /tmp/busybox-armv7l /system/bin/busybox-armv7l
+rm /tmp/busybox-armv7l
+chmod 755 /system/bin/busybox-armv7l
 mkdir /online/opt
 echo -e "\n\nbusybox ln -sf /system/bin/busybox-armv7l /bin/wget" >> /system/etc/autorun.sh
 echo -e "ln -s /online/opt /opt" >> /system/etc/autorun.sh
+echo -e "mount -o remount,exec,rw,relatime /online" >> /system/etc/autorun.sh
 echo -e "#User's autorun\n/online/opt/user-autorun.sh" >> /system/etc/autorun.sh
 echo -e "#!/system/bin/busybox-armv7l sh\n" > /online/opt/user-autorun.sh
-chmod +x /online/opt/user-autorun.sh
+chmod 755 /online/opt/user-autorun.sh
 mount -o remount,ro /system
 reboot
 ```
+We now can bootstrap the opkg
+
+```
+unset LD_LIBRARY_PATH
+unset LD_PRELOAD
+mkdir -p /opt/bin
+mkdir -p /opt/etc
+mkdir -p /opt/lib/opkg
+mkdir -p /opt/tmp
+mkdir -p /opt/var/lock
+
+DLOADER="ld-linux.so.3"
+URL=http://bin.entware.net/armv7sf-k3.2/installer
+wget $URL/opkg -O /opt/bin/opkg
+chmod 755 /opt/bin/opkg
+
+wget $URL/opkg.conf -O /opt/etc/opkg.conf
+wget $URL/ld-2.27.so -O /opt/lib/ld-2.27.so
+wget $URL/libc-2.27.so -O /opt/lib/libc-2.27.so
+wget $URL/libgcc_s.so.1 -O /opt/lib/libgcc_s.so.1
+wget $URL/libpthread-2.27.so -O /opt/lib/libpthread-2.27.so
+cd /opt/lib
+chmod 755 ld-2.27.so
+ln -s ld-2.27.so $DLOADER
+ln -s libc-2.27.so libc.so.6
+ln -s libpthread-2.27.so libpthread.so.0
+
+/opt/bin/opkg update
+```
+
 
 # Go further
 
