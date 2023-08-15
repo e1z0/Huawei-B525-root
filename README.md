@@ -141,6 +141,10 @@ ln -s libc-2.27.so libc.so.6
 ln -s libpthread-2.27.so libpthread.so.0
 
 /opt/bin/opkg update
+/opt/bin/opkg install busybox
+/opt/bin/opkg install entware-opt
+echo -e "source /opt/etc/profile" >> /opt/user-autorun.sh
+reboot
 ```
 
 
