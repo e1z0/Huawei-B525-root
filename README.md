@@ -104,6 +104,7 @@ rm /tmp/busybox-armv7l
 chmod 755 /system/bin/busybox-armv7l
 mkdir /online/opt
 echo -e "\n\nbusybox ln -sf /system/bin/busybox-armv7l /bin/wget" >> /system/etc/autorun.sh
+echo -e "busybox ln -sf /system/bin/busybox-armv7l /bin/gzip" >> /system/etc/autorun.sh
 echo -e "ln -s /online/opt /opt" >> /system/etc/autorun.sh
 echo -e "mount -o remount,exec,rw,relatime /online" >> /system/etc/autorun.sh
 echo -e "#User's autorun\n/online/opt/user-autorun.sh" >> /system/etc/autorun.sh
