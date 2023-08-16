@@ -170,8 +170,11 @@ insmod /opt/etc/wireguard/wireguard.ko
 mkdir /opt/etc/wireguard
 cd /opt/etc/wireguard
 wg genkey | tee privatekey | wg pubkey > publickey
+```
 
-edit /opt/wireguard.sh and set all required parameters
+Edit **/opt/wireguard.sh** and set all required parameters
+
+```
 echo "/opt/wireguard.sh" >> /opt/user-autorun.sh
 reboot
 ```
