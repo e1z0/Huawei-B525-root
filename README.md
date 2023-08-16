@@ -113,7 +113,7 @@ chmod 755 /online/opt/user-autorun.sh
 mount -o remount,ro /system
 reboot
 ```
-We now can bootstrap the opkg
+Now we can bootstrap the opkg
 
 ```
 unset LD_LIBRARY_PATH
@@ -179,8 +179,54 @@ echo "/opt/wireguard.sh" >> /opt/user-autorun.sh
 reboot
 ```
 
+Some useful iptables commands:
+```
+iptables -L --line-numbers # Show rules with line numbers
+iptables -D FORWARD 13 # enable access internal network access from vpn
+iptables -D INPUT_SERVICE_ACL 2 # icmp block remove
+iptables -D FWD_FIREWALL 1 # enable ping local lan
+```
 
-# Go further
+# Leds
 
-* [Install and configure OPKG package manager and other tools](https://4pda.to/forum/index.php?showtopic=800482&view=findpost&p=75680288)
+Values: 0 -> Off, 10 -> On
+```
+echo 0 > /sys/class/leds/wifi_led\:white/brightness # Wireless led indicator
+echo 0 > /sys/class/leds/power_led\:white/brightness # Power led indicator
+echo 0 > /sys/class/leds/lan_led\:white/brightness # Lan led indicator
+echo 0 > /sys/class/leds/mode_led\:green/brightness  # 4G Mode Green led indicator
+echo 0 > /sys/class/leds/mode_led\:red/brightness # 4G Mode Red led indicator
+echo 0 > /sys/class/leds/mode_led\:blue/brightness # 4G Mode Blue led indicator
+echo 0 > /sys/class/leds/signal1_led\:white/brightness # Signal 1 bar led indicator
+echo 0 > /sys/class/leds/signal2_led\:white/brightness # Signal 2 bar led indicator
+echo 0 > /sys/class/leds/signal3_led\:white/brightness # Signal 3 bar led indicator
+echo 0 > /sys/class/leds/signal4_led\:white/brightness # Signal 4 bar led indicator
+echo 0 > /sys/class/leds/signal5_led\:white/brightness # Signal 5 bar led indicator
+```
+
+# Network availability script
+
+Checks network connection by pinging to the specified ip and if it does not succeed turns on the red led
+
+```
+#!/system/bin/busyboxx sh
+
+LED=/sys/class/leds/mode_led\:red/brightness
+TARGET=1.1.1.1      
+
+while true;
+do
+  ping -c3 $TARGET > /dev/null
+  if [ $? -eq 0 ]
+  then
+    echo 0 > $LED # 4G Mode Red led indicator
+  else
+    echo 10 > $LED # 4G Mode Red led indicator
+  fi
+  sleep 3
+done
+```
+
+# Misc
+
 * [Other forum posts (in russian)](https://4pda.to/forum/index.php?showtopic=800482&st=1860#entry75680288)
